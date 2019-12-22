@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotaReplayConsole", "DotaReplayConsole\DotaReplayConsole.csproj", "{1AB4E297-B0C0-45D9-A0B5-83D4E2CB025E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AB4E297-B0C0-45D9-A0B5-83D4E2CB025E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AB4E297-B0C0-45D9-A0B5-83D4E2CB025E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AB4E297-B0C0-45D9-A0B5-83D4E2CB025E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AB4E297-B0C0-45D9-A0B5-83D4E2CB025E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E02ACC2F-BA66-4CA8-9B09-7769F8A711F0}
+	EndGlobalSection
+EndGlobal
