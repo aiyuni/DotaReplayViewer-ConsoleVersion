@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotaReplayConsole.MatchDetails
+namespace DotaReplayConsole.MatchDetailsProperties
 {
-    class SenLog
+    public class ItemUses
     {
     }
 }

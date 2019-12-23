@@ -8,9 +8,9 @@ namespace DotaReplayConsole
 {
     class Replay
     {
-        public long Match_id { get; set; }
-        public long Cluster { get; set; }
-        public long Replay_salt { get; set; }
+        public int Match_id { get; set; }
+        public int Cluster { get; set; }
+        public int Replay_salt { get; set; }
 
         public Replay(int id, int cluster, int replaySalt)
         {

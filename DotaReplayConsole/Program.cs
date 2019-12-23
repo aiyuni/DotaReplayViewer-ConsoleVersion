@@ -14,6 +14,8 @@ using System.Windows.Forms;
 using ICSharpCode.SharpZipLib.BZip2;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace DotaReplayConsole
 {
@@ -22,36 +24,35 @@ namespace DotaReplayConsole
         [DllImport("user32.dll")]
         public static extern int SetForegroundWindow(IntPtr hWnd);
 
-        public static long matchID = 5164275078; //5164022682; //5163131785 for 13:46 long //5164286766 for 1v1
-        public static string replayFolder =
-            "C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\dota\\replays";
+        private static readonly NameValueCollection settings = ConfigurationManager.AppSettings;
+        private static readonly FileSystemWatcher watcher = new FileSystemWatcher();
         public static Process dota;
         public static Process obs;
-
-        private static readonly HttpClient client = new HttpClient();
-
-        private static FileSystemWatcher watcher = new FileSystemWatcher();
         
-
         static async Task Main(string[] args)
         {
             Console.WriteLine("Hello World! Starting Dota 2...");
+            Console.Write("Enter Match ID: ");
+            string input = Console.ReadLine();
+            int matchId;
 
-            //Initialize File Watcher
+            while (!int.TryParse(input, out matchId))
+            {
+                Console.Write("Enter Match ID: ");
+                input = Console.ReadLine();
+            }
+
             InitializeWatcher();
 
-            //Get replay URL from opendota api
-            var replayUrl = await getReplayUrl(matchID);
+            Replay replay = await OpenDotaApi.GetReplay(matchId);
+            Util.DownloadAndUnzipReplay(replay);
 
-            //Download and unzip replay file
-            DownloadAndUnzipReplay(replayUrl);
+            //get match details and store hero/player_slot info in map
+            Dictionary<string, int> heroesMap = await GetMatchDetails(matchId);
 
-            //Get match details and store hero/player_slot info in map
-            Dictionary<string, int> heroesMap = await GetMatchDetails(matchID);
+            int matchDurationInSeconds = await GetMatchLength(matchId);
 
-            int matchDurationSeconds = await GetMatchLength(matchID);
-
-            //Ask user for input
+            //ask user for input
             Console.WriteLine("Please enter the hero you want to view as: ");
             var userInput = Console.ReadLine();
             int playerSlot;
@@ -80,10 +81,9 @@ namespace DotaReplayConsole
 
         public static void InitializeWatcher()
         {
-            watcher.Path = replayFolder;
             //watcher.Filter = ".dem";
+            watcher.Path = replayFolder;
             watcher.Created += new FileSystemEventHandler(onAdd);
-            //watcher.Changed += new FileSystemEventHandler(onAdd);
             watcher.EnableRaisingEvents = true;
         }
 
@@ -177,74 +177,10 @@ namespace DotaReplayConsole
             return "error";
         }
 
-        public static async Task<string> getReplayUrl(long replayId)
-        {
-            var response = await client.GetAsync("https://api.opendota.com/api/replays?match_id=" + replayId);
-            var jsonString = await response.Content.ReadAsStringAsync();
-            List<Replay> jsonResponse = JsonConvert.DeserializeObject<List<Replay>>(jsonString);
-
-            System.Diagnostics.Debug.WriteLine(jsonResponse[0].Match_id + " , " + jsonResponse[0].Cluster + ", " + jsonResponse[0].Replay_salt);
-
-            long matchID = replayId;
-            long cluster = jsonResponse[0].Cluster;
-            long replaySalt = jsonResponse[0].Replay_salt;
-
-            string replayUrl = null;
-
-            if (jsonResponse[0].Cluster == 236)  //for chinese replays
-            {
-                replayUrl = "http://replay" + cluster + ".wmsj.cn/570/" + matchID + "_" + replaySalt + ".dem.bz2";
-            }
-            else
-            {
-                replayUrl = "http://replay" + cluster + ".valve.net/570/" + matchID + "_" + replaySalt + ".dem.bz2";
-
-            }
-
-            return replayUrl;
-        }
-
-        public static async Task DownloadAndUnzipReplay(string replayUrl)
-        {
-            string compressedFilePath = replayFolder + "\\" + matchID + ".dem.bz2";
-            string uncompressedFilePath = replayFolder + "\\" + matchID + ".dem";
-
-            string[] filePaths = Directory.GetFiles(replayFolder);
-            foreach (string filePath in filePaths)
-            {
-                if (filePath.Equals(uncompressedFilePath))
-                {
-                    System.Diagnostics.Debug.WriteLine("Deleting file...");
-                    File.Delete(filePath);
-                }
-            }
-
-            using (WebClient webClient = new WebClient())
-            {
-                //File.Delete(Directory.GetFiles(replayFolder).Where(x => x.Equals(uncompressedFilePath)).FirstOrDefault());
-                webClient.DownloadFile(replayUrl, compressedFilePath);
-
-                using (FileStream fs = new FileInfo(compressedFilePath).OpenRead())
-                {
-                    try
-                    {
-                        Debug.Write("starting to decompress");
-                        BZip2.Decompress(fs, File.Create(uncompressedFilePath), true);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Write("something went wrong");
-                    }
-                }
-                Debug.Write("deleting compressed file...");
-                File.Delete(Directory.GetFiles(replayFolder).Where(x => x.Equals(compressedFilePath)).FirstOrDefault());
-            }
-        }
-
-        public static async Task<Dictionary<string, int>> GetMatchDetails(long matchID)
+        public static async Task<Dictionary<string, int>> GetMatchDetails(int matchId)
         {
             //Get replay stats from opendota api
-            var response = await client.GetAsync("https://api.opendota.com/api/matches/" + matchID);
+            var response = await client.GetAsync($"{settings["openDotaApi"]}/matches/{matchId}");
             var jsonString = await response.Content.ReadAsStringAsync();
 
             //parse json string to obj
