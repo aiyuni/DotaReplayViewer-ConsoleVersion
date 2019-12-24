@@ -19,7 +19,8 @@ WatchThisReplay(id, playerSlot)
 	Sleep, 2000
 	Send {Enter}
 	Sleep, 15000
-	/*SendRaw dota_spectator_increasereplayspeed 8	
+	/*
+	SendRaw dota_spectator_increasereplayspeed 8	
 	Sleep, 1000
 	Send {Enter}
 	SendRaw dota_spectator_increasereplayspeed 8
@@ -34,6 +35,7 @@ WatchThisReplay(id, playerSlot)
 	SendRaw dota_spectator_increasereplayspeed 8	
 	Sleep, 1000
 	Send {Enter}
+	*/
 	Loop, %playerSlot%
 	{
 		SendRaw dota_spectator_selectnexthero
@@ -44,7 +46,7 @@ WatchThisReplay(id, playerSlot)
 	SendRaw dota_spectator_mode 3
 	Sleep, 1000
 	Send {Enter}
-	Click, X2
+	Click, \
 	return
 }
 
