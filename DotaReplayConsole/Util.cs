@@ -19,9 +19,9 @@ namespace DotaReplayConsole
 
         public static void DownloadAndUnzipReplay(Replay replay)
         {
-            string replayUrl = BuildReplayUrl(replay.Match_id, replay.Cluster, replay.Replay_salt);
-            string compressedFilePath = $"{replayFolder}\\{replay.Match_id}.dem.bz2";
-            string uncompressedFilePath = $"{replayFolder}\\{replay.Match_id}.dem";
+            string replayUrl = BuildReplayUrl(replay.match_id, replay.cluster, replay.replay_salt);
+            string compressedFilePath = $"{replayFolder}\\{replay.match_id}.dem.bz2";
+            string uncompressedFilePath = $"{replayFolder}\\{replay.match_id}.dem";
             string[] filePaths = Directory.GetFiles(replayFolder);
 
             foreach (string filePath in filePaths)
@@ -55,7 +55,7 @@ namespace DotaReplayConsole
             }
         }
 
-        private static string BuildReplayUrl(int matchId, int cluster, int replaySalt)
+        private static string BuildReplayUrl(long matchId, int cluster, int replaySalt)
         {
             string url = cluster == 236 ? ".wmsj.cn / 570 /" : ".valve.net/570/";
             return $"http://replay{cluster}{url}{matchId}_{replaySalt}.dem.bz2";

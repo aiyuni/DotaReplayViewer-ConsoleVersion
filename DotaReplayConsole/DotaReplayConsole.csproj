@@ -43,6 +43,7 @@
       <HintPath>..\packages\sharpAHK.1.0.0.5\lib\net45\sharpAHK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -55,20 +56,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MatchDetail.cs" />
-    <Compile Include="MatchDetails\Benchmarks.cs" />
-    <Compile Include="MatchDetails\FirstPurchaseTime.cs" />
-    <Compile Include="MatchDetails\ItemUsage.cs" />
-    <Compile Include="MatchDetails\ItemWin.cs" />
-    <Compile Include="MatchDetails\PurchaseTime.cs" />
-    <Compile Include="MatchDetails\PurchaseTpscroll.cs" />
-    <Compile Include="MatchDetails\Sen.cs" />
-    <Compile Include="MatchDetails\SenLeftLog.cs" />
-    <Compile Include="MatchDetails\SenLog.cs" />
-    <Compile Include="MatchDetails\XpReasons.cs" />
+    <Compile Include="Model\Hero.cs" />
+    <Compile Include="Model\Match.cs" />
+    <Compile Include="Model\Match\AbilityTargets.cs" />
+    <Compile Include="Model\Match\AbilityUses.cs" />
+    <Compile Include="Model\Match\Actions.cs" />
+    <Compile Include="Model\Match\AdditionalUnits.cs" />
+    <Compile Include="Model\Match\AllWordCounts.cs" />
+    <Compile Include="Model\Match\Benchmarks.cs" />
+    <Compile Include="Model\Match\BuybackLog.cs" />
+    <Compile Include="Model\Match\Chat.cs" />
+    <Compile Include="Model\Match\ConnectionLog.cs" />
+    <Compile Include="Model\Match\Cosmetics.cs" />
+    <Compile Include="Model\Match\Damage.cs" />
+    <Compile Include="Model\Match\DamageInflictor.cs" />
+    <Compile Include="Model\Match\DamageInflictorReceived.cs" />
+    <Compile Include="Model\Match\DamageTaken.cs" />
+    <Compile Include="Model\Match\DamageTargets.cs" />
+    <Compile Include="Model\Match\DireTeam.cs" />
+    <Compile Include="Model\Match\DraftTiming.cs" />
+    <Compile Include="Model\Match\FirstPurchaseTime.cs" />
+    <Compile Include="Model\Match\GoldReasons.cs" />
+    <Compile Include="Model\Match\HeroHits.cs" />
+    <Compile Include="Model\Match\ItemUsage.cs" />
+    <Compile Include="Model\Match\ItemUses.cs" />
+    <Compile Include="Model\Match\ItemWin.cs" />
+    <Compile Include="Model\Match\Killed.cs" />
+    <Compile Include="Model\Match\KilledBy.cs" />
+    <Compile Include="Model\Match\KillsLog.cs" />
+    <Compile Include="Model\Match\KillStreaks.cs" />
+    <Compile Include="Model\Match\LanePos.cs" />
+    <Compile Include="Model\Match\League.cs" />
+    <Compile Include="Model\Match\LifeState.cs" />
+    <Compile Include="Model\Match\MaxHeroHit.cs" />
+    <Compile Include="Model\Match\MultiKills.cs" />
+    <Compile Include="Model\Match\MyWordCounts.cs" />
+    <Compile Include="Model\Match\Objectives.cs" />
+    <Compile Include="Model\Match\Obs.cs" />
+    <Compile Include="Model\Match\ObsLeftLog.cs" />
+    <Compile Include="Model\Match\ObsLog.cs" />
+    <Compile Include="Model\Match\PermanentBuff.cs" />
+    <Compile Include="Model\Match\PicksBans.cs" />
+    <Compile Include="Model\Match\Player.cs" />
+    <Compile Include="Model\Match\Purchase.cs" />
+    <Compile Include="Model\Match\PurchaseLog.cs" />
+    <Compile Include="Model\Match\PurchaseTime.cs" />
+    <Compile Include="Model\Match\PurchaseTpScroll.cs" />
+    <Compile Include="Model\Match\RadiantGoldAdv.cs" />
+    <Compile Include="Model\Match\RadiantTeam.cs" />
+    <Compile Include="Model\Match\RadiantXpAdv.cs" />
+    <Compile Include="Model\Match\Runes.cs" />
+    <Compile Include="Model\Match\RunesLog.cs" />
+    <Compile Include="Model\Match\Sen.cs" />
+    <Compile Include="Model\Match\SenLeftLog.cs" />
+    <Compile Include="Model\Match\SenLog.cs" />
+    <Compile Include="Model\Match\Teamfights.cs" />
+    <Compile Include="Model\Match\XpReasons.cs" />
+    <Compile Include="OpenDotaApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Replay.cs" />
+    <Compile Include="Model\Replay.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
