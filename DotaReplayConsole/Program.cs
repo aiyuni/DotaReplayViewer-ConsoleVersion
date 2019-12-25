@@ -15,15 +15,6 @@ namespace DotaReplayConsole
         [DllImport("user32.dll")]
         public static extern int SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        public static extern int SetActiveWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern int SetFocus(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndParent);
-
         private static readonly NameValueCollection settings = ConfigurationManager.AppSettings;
         private static string replayFolder = settings["replayFolder"];
 
