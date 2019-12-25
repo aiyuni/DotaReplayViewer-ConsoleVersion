@@ -15,7 +15,7 @@ WatchThisReplay(id, playerSlot)
 	Sleep, 1000
 	Send {Space}
 	Sleep, 2000
-	SendRaw "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/replays/%id%.dem"  
+	SendRaw "/replays/%id%.dem"  
 	Sleep, 2000
 	Send {Enter}
 	Sleep, 15000
@@ -46,7 +46,7 @@ WatchThisReplay(id, playerSlot)
 	SendRaw dota_spectator_mode 3
 	Sleep, 1000
 	Send {Enter}
-	Click, \
+	Send, \
 	return
 }
 

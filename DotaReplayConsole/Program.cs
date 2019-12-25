@@ -15,13 +15,23 @@ namespace DotaReplayConsole
         [DllImport("user32.dll")]
         public static extern int SetForegroundWindow(IntPtr hWnd);
 
+        [DllImport("user32.dll")]
+        public static extern int SetActiveWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern int SetFocus(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndParent);
+
         private static readonly NameValueCollection settings = ConfigurationManager.AppSettings;
         private static string replayFolder = settings["replayFolder"];
 
         private static readonly FileSystemWatcher watcher = new FileSystemWatcher();
+        public static IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
         public static Process dota;
         public static Process obs;
-        
+
         static async Task Main(string[] args)
         {
             Console.WriteLine("Hello World! Starting Dota 2...");
@@ -38,7 +48,7 @@ namespace DotaReplayConsole
 
             Replay replay = await OpenDotaApi.GetReplay(matchId);
             Match match = await OpenDotaApi.GetMatch(matchId);
-            Util.DownloadAndUnzipReplay(replay);
+            //Util.DownloadAndUnzipReplay(replay);
             Dictionary<int, Hero> heroes = OpenDotaApi.GetMatchHeroes(match);
             int matchDurationSeconds = match.duration;
 
@@ -99,7 +109,6 @@ namespace DotaReplayConsole
         private static async Task StartReplay(long matchId, int playerSlot)
         {
             IntPtr h = dota.MainWindowHandle;
-            SetForegroundWindow(h);
             await Task.Delay(10000);
             Console.WriteLine("sending input..");
             System.Diagnostics.Debug.WriteLine("sending inputs...");
@@ -123,11 +132,11 @@ namespace DotaReplayConsole
             obs = Process.GetProcessesByName("obs64").FirstOrDefault();
 
             IntPtr h = obs.MainWindowHandle;
+            await Task.Delay(5000);
             SetForegroundWindow(h);
-
-            await Task.Delay(8000);
             System.Diagnostics.Debug.WriteLine("sending OBS inputs...");
             Debug.WriteLine("Starting stream..at: " + DateTime.Now);
+
             var ahk = new AutoHotkey.Interop.AutoHotkeyEngine();
             ahk.LoadFile("../../test.ahk");
             ahk.ExecFunction("StartStream");

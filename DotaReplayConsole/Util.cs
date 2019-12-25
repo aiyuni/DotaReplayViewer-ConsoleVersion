@@ -47,7 +47,7 @@ namespace DotaReplayConsole
                     }
                     catch (Exception e)
                     {
-                        Debug.Write("something went wrong");
+                        Debug.Write($"error: {e.Message}");
                     }
                 }
                 Debug.Write("deleting compressed file...");
